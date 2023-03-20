@@ -3,6 +3,8 @@ let router = express.Router();
 const bodyParser = require("body-parser");
 const {
   addPerson,
+  userLogin,
+  authenticate
 //   updatePerson,
 //   getPerson,
 //   addPersonFavourite,
@@ -17,6 +19,8 @@ const {
 router.use(express.json());
 
 router.post("/user", addPerson);
+router.post("/login",userLogin);
+router.get("/authorise",authenticate);
 // router.patch("/person/:personId", updatePerson);
 // router.get("/person/:personId", getPerson);
 // router.post("/favourite", addPersonFavourite);

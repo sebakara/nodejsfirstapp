@@ -39,8 +39,8 @@ module.exports.addPerson = async (req, res) => {
         .returning('*');
       const user = rows[0];
       const token = jwt.sign({ id: user.id }, 'secret_key');
-      sendRegistrationEmail(user.email, token);
-      res.json({ status: "success", message: "success", token: token });
+      sendRegistrationEmail(add.email, token);
+      res.json({ status: "success", message: "success", token: token});
     } catch (err) {
       console.log(err)
       res.json({ status: "error", message: err.code });
@@ -49,11 +49,41 @@ module.exports.addPerson = async (req, res) => {
 };
 
     // user login
+module.exports.userLogin = async (req,res)=>{
+    const mail = req.body.username;
+    const pwd = req.body.password;
+    const saltRounds = 10;
 
-    // {
-    //     "firstName":"Maic",
-    //     "lastName":"Sebakara",
-    //     "email":"maicseba@gmail.com",
-    //     "address":"kacyiru",
-    //     "password":"123456"
-    // }
+    knex("users").where("email",mail).then(function(data){
+
+        if(data.length > 0){
+            if(data.password !== bcrypt.hashSync(pwd, saltRounds)){
+                res.json({
+                    message:"invalid password",
+                    data: null
+                })
+            }
+            res.json({
+                message:"success",
+                data: data
+            })
+        }
+        else{
+            res.json({
+                message:"data not found",
+                data: null
+            })
+        }
+
+    })
+// console.log("email is: "+mail+ " and passwoed is:"+pwd);  photogenixstudio
+}
+
+
+
+// check the jwt
+module.exports.authenticate = async(request, response, next) =>{
+    const authHeader = request.get("Authorization")
+
+
+}
