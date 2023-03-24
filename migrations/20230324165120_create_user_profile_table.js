@@ -3,12 +3,14 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable('users', (table) => {
+    return knex.schema.createTable('users_profile', (table) => {
         table.increments('id').unsigned().primary();
-        table.string('fname').notNullable();
-        table.string('lname').notNullable();
-        table.string('email').unique();
-        table.string('password');
+        table.string('national_id').notNullable();
+        table.string("gender").notNullable();
+        table.string('date_of_birth').notNullable();
+        table.string('profile_picture');
+        table.string("address");
+        table.integer("user_id").notNullable();
         table.datetime('created_at').defaultTo(knex.fn.now());
         table.datetime('updated_at').defaultTo(knex.fn.now());
     });
@@ -19,5 +21,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTable('student');
+  
 };
